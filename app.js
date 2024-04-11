@@ -1,14 +1,25 @@
-import express from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
+import express from 'express'
 const app = express()
 import cors from 'cors'
+import taskRouter from './routes/task.js'
+import connectDB from './db/connectDB.js'
+import ErrorHandler from './middleware/Error.handler.js'
+
+const corsOption = {
+    allowedHeaders: ["Authorization","Content-Type"],
+    methods: ["GET","POST","UPDATE"],
+    origin: ["http://192.168.1.150.8080","//https://contact-app-client-xbck.onrender.com/"],
+}
 
 //middleware
+//const app = express();
 app.use(express.json());
-app.use(cors());
-app.use('/tasks', tasks)
-app.use(notfound)
+//app.use(cors(corsOption));
+app.use('/tasks', taskRouter)
+
+//app.use(notfound)
 
 const port = process.env.PORT || 4000
 
@@ -21,4 +32,6 @@ const start = async () => {
        console.log(error)
     }
 }
-start()
+start();
+
+app.use(ErrorHandler);
