@@ -32,19 +32,23 @@ const taskSchema = new mongoose.Schema({
             required: false,
         },
         endTime: {
-            type: Date,
+            type: String,
             required: false,
         },
         duration: {
             type: Number,
             required: false,
-            enum: {
-                values: ["Minutes","Hours","Days","Weeks","Months"],
-                message: "{VALUES} is not a valid duration type",
-            },
-            //default: "Days"
         },
-    }
+        durationType:{
+                type: String,
+                required: false,
+                enum: {
+                    values: ["Minutes","Hours","Days","Weeks","Months"],
+                    message: "{VALUES} is not a valid duration type",
+                },
+            }
+              //default: "Days"
+        }
 });
 
 const TaskModel = mongoose.model("Task",taskSchema)
