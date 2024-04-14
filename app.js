@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express'
 const app = express()
+import  Configs from './configs/index.js';
 import cors from 'cors'
 import taskRouter from './routes/task.js'
 import connectDB from './db/connectDB.js'
