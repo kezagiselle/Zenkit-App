@@ -71,7 +71,7 @@
       }
     }
 },
-"/tasks/update/:id":{
+"/tasks/update/{id}":{
     "put":{
         "summary": "update tasks",
         "description": "updating tasks",
