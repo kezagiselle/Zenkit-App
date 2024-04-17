@@ -7,6 +7,9 @@ import cors from 'cors'
 import taskRouter from './routes/task.js'
 import connectDB from './db/connectDB.js'
 import ErrorHandler from './middleware/Error.handler.js'
+import swaggerUi from 'swagger-ui-express';
+import swagger from './docs/swagger.json' assert {type:"json"}
+
 
 const corsOption = {
     allowedHeaders: ["Authorization","Content-Type"],
@@ -19,6 +22,7 @@ const corsOption = {
 app.use(express.json());
 //app.use(cors(corsOption));
 app.use('/tasks', taskRouter)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
 
 //app.use(notfound)
 
@@ -27,7 +31,7 @@ const port = process.env.PORT || 4000
 //db connection
 const start = async () => {
     try {
-        // await connectDB(process.env.MONGO_URI || 'mongodb+srv://gisele:Gisele123@cluster0.is925uq.mongodb.net/')
+        await connectDB(process.env.MONGO_URI || 'mongodb+srv://gisele:Gisele123@cluster0.is925uq.mongodb.net/')
         app.listen(port, console.log(`server is listening on port ${port}`))
     } catch (error) {
        console.log(error)
