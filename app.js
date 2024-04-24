@@ -4,13 +4,15 @@ import express from 'express'
 const app = express()
 import  Configs from './configs/index.js';
 import cors from 'cors'
-import taskRouter from './routes/task.js'
 import connectDB from './db/connectDB.js'
 import ErrorHandler from './middleware/Error.handler.js'
 import swaggerUi from 'swagger-ui-express';
 import swagger from './docs/swagger.json' assert {type:"json"}
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import userRouter from './routes/user.js';
+import taskRouter from './routes/task.js'
+import tagRouter from './routes/tag.js';
+// import allRoutes from './routes/index.js';
 
 const corsOption = {
     allowedHeaders: ["Authorization","Content-Type"],
@@ -19,42 +21,15 @@ const corsOption = {
 }
 
 //middleware
-//const app = express();
 //app.use(notfound)
 app.use(express.json());
 //app.use(cors(corsOption));
-app.use('/tasks', taskRouter)
+app.use(taskRouter);
+app.use(tagRouter);
+app.use(userRouter);
+app.use(userRouter);
+// app.use('/api/v1', allRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
-
-
-app.post('/users',async (req,res) => {
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password,10)
-        console.log(salt)
-        console.log(hashedPassword)
-        const user = { name: req.body.name, password: req.body.password }
-        users.push(user)
-        res.status(201).send()
-    } catch (err){
-        next(err)
-    } 
-});
-
-app.post('/users/login', async(req, res) =>{
-    const user = users.find(user => user.name = req.body.name)
-    if(user == null) {
-        return res.status(400).send("can not find user")
-    }
-    try {
-        if(await bcrypt.compare(req.body.password,user.password)){
-            res.send("Success")
-        } else{
-            res.send("Not Allowed")
-        }
-    } catch(err){
-        next(err)
-    }
-})
 
 // app.post('/login',(req,res) => {
 //     const username = req.body.username

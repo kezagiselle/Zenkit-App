@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import {model, Schema} from 'mongoose';
 
 const taskSchema = new mongoose.Schema({
     name: {
@@ -16,7 +17,32 @@ const taskSchema = new mongoose.Schema({
             values: ["Todo","Progress","Completed","Late","Over-due"],
             message: "{VALUE} is not a valid status",
         },
-        default: "Todo"
+        // default: "Todo"
+    },
+    parentTask: {
+        type: Schema.Types.ObjectId,
+        ref: "Task",
+        required: false,
+    },
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Tag',
+        required: false
+    }],
+    checkList: [{
+        name: {
+            type: String,
+            required: true,
+        },
+        checked: {
+            type: Boolean,
+            required: true,
+            default: false
+        }
+    }],
+    workload: {
+        type: Number,
+        required: true
     },
     dueDate: {
         startDate: {
